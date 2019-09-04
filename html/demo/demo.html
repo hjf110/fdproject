@@ -6,45 +6,74 @@
     <link rel="stylesheet" href="../../tools/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" href="../../tools/layuiadmin/style/admin.css">
     <link rel="stylesheet" href="../../css/xadmin.css">
-    
+
 
 </head>
 <body>
 <div id="toolBar" class="hide">
     <div class="layui-btn-group" style="position: relative;bottom: 2px;">
-        <button type="button" class="layui-btn layui-btn-xs layui-btn-normal">预评</button>
-        <button type="button" class="layui-btn layui-btn-xs">立项</button>
-        <button type="button" class="layui-btn layui-btn-xs layui-btn-primary">上会</button>
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="yp">预评</button>
+        <button type="button" class="layui-btn layui-btn-xs" lay-event="lx">立项</button>
+        <button type="button" class="layui-btn layui-btn-xs layui-btn-primary" lay-event="sh">上会</button>
     </div>
 </div>
 
-
-
-
-
+<script type="text/html" id="step">
+    {{#  if(d.state1==0 ){                    }}
+    <div style="background:lightslategrey;color:white">未进行</div>
+    {{#  }else if(d.state1==1 )  {             }}
+    <div style="background: burlywood;color:white">待审核</div>
+    {{#  }else if(d.state1==2 )  {             }}
+    <div style="background: lightseagreen;color:white">审核通过</div>
+    {{#  }else  {             }}
+    <div style="background: lightcoral;color:white">审核驳回</div>
+    {{#  }           }}
+</script>
+<script type="text/html" id="step2">
+    {{#  if(d.state2==0 ){                    }}
+    <div style="background:lightslategrey;color:white">未进行</div>
+    {{#  }else if(d.state2==1 )  {             }}
+    <div style="background: burlywood;color:white">待审核</div>
+    {{#  }else if(d.state2==2 )  {             }}
+    <div style="background: lightseagreen;color:white">审核通过</div>
+    {{#  }else  {             }}
+    <div style="background: lightcoral;color:white">审核驳回</div>
+    {{#  }           }}
+</script>
+<script type="text/html" id="step3">
+    {{#  if(d.state3==0 ){                    }}
+    <div style="background:lightslategrey;color:white">未进行</div>
+    {{#  }else if(d.state3==1 )  {             }}
+    <div style="background: burlywood;color:white">待审核</div>
+    {{#  }else if(d.state3==2 )  {             }}
+    <div style="background: lightseagreen;color:white">审核通过</div>
+    {{#  }else  {             }}
+    <div style="background: lightcoral;color:white">审核驳回</div>
+    {{#  }           }}
+</script>
 
 
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
-<!--                <div id="app1" class="layui-card-body ">-->
-<!--                    <form class="layui-form layui-col-space5">-->
-<!--                        <div class="layui-input-inline layui-show-xs-block long-input">-->
-<!--                            <input class="layui-input" placeholder="请选择查询的时间范围" autocomplete="off" name="start"-->
-<!--                                   id="all">-->
-<!--                        </div>-->
-<!--                        <div class="layui-input-inline layui-show-xs-block long-input">-->
-<!--                            <input class="layui-input" placeholder="请输入查询渠道" autocomplete="off" name="start"-->
-<!--                                   v-model="channel">-->
-<!--                        </div>-->
-<!--                        <div class="layui-input-inline layui-show-xs-block">-->
-<!--                            <button class="layui-btn" type="button" lay-filter="sreach" data-type="timeselect">-->
-<!--                                <i class="layui-icon">&#xe615;</i>查询-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
+                <!--                <div id="app1" class="layui-card-body ">-->
+                <!--                    <form class="layui-form layui-col-space5">-->
+                <!--                        <div class="layui-input-inline layui-show-xs-block long-input">-->
+                <!--                            <input class="layui-input" placeholder="请选择查询的时间范围" autocomplete="off" name="start"-->
+                <!--                                   id="all">-->
+                <!--                        </div>-->
+                <!--                        <div class="layui-input-inline layui-show-xs-block long-input">-->
+                <!--                            <input class="layui-input" placeholder="请输入查询渠道" autocomplete="off" name="start"-->
+                <!--                                   v-model="channel">-->
+                <!--                        </div>-->
+                <!--                        <div class="layui-input-inline layui-show-xs-block">-->
+                <!--                            <button class="layui-btn" type="button" lay-filter="sreach" data-type="timeselect">-->
+                <!--                                <i class="layui-icon">&#xe615;</i>查询-->
+                <!--                            </button>-->
+                <!--                        </div>-->
+                <!--                    </form>-->
+                <!--                </div>-->
                 <div class="layui-card-body">
                     <table id="table_all" lay-filter="table_all"></table>
                 </div>
@@ -69,6 +98,10 @@
             layer = layui.layer;
 
 
+        const code = sessionStorage.getItem("code");
+
+        var idx;//加载弹窗
+
         //渲染数据表格
         table.render({
             elem: '#table_all',
@@ -88,7 +121,7 @@
                 , limitName: 'count' //每页数据量的参数名，默认：limit
             },
             cols: [[
-               {
+                {
                     field: 'id',
                     title: '序号',
                     //style : 'height:60px;width:60px;line-height:60px!important;',
@@ -110,21 +143,24 @@
                     field: 'state1',
                     title: '预评状态'
                     //,templet : '<div>{{d.ps1Name}}>{{d.ps2Name}}</div>',
+                    , templet: "#step"
                 }
                 , {
                     field: 'state2',
                     title: '立项状态',
+                    templet: "#step2"
                     // sort: true
                 }
                 , {
                     field: 'state3',
                     title: '上会状态',
+                    templet: "#step3"
                     // sort: true
                 }
                 , {
                     title: '操作',
                     fixed: 'right',
-                    width : 200,
+                    width: 200,
                     align: 'center',
                     toolbar: '#toolBar'
                 }
@@ -205,69 +241,61 @@
 
 
         //监听工具条
-        table.on('tool(transport_unit_library)', function (obj) {
+        table.on('tool(table_all)', function (obj) {
             var data = obj.data;
-            if (obj.event === 'detail') {
-                //layer.msg('ID：' + data.id + ' 的查看操作');
-                layer.open({
-                    id: "layer_say_hello",
-                    type: 2,
-                    title: data.title,
-                    maxmin: true,
-                    shadeClose: false,
-                    shade: 0.8,
-                    area: ['1000px', '800px'],
-                    //content : path+'/voteback/add.html',
-                    content: path + '/info/show/new-' + data.id + '.html?m=1', //iframe的url
-                    success: function (layero, index) {
-                        //传入参数，并赋值给iframe的元素
-                        $('#shuaxing').click();
-                    }
-                });
+            console.log(data);
+            if (obj.event === 'yp') {//预评
 
-            } else if (obj.event === 'del') {
-                layer.confirm('真的要删除吗', function (index) {
-                    $.ajax({
-                        type: "POST",
-                        url: '<%=request.getContextPath()%>/voteback/pro/delPro',
-                        data: {
-                            "id": data.id,
-                        },
-                        dataType: "json",
-                        success: function (data) {
+                layer.confirm('确定预评吗', (index) => {
+                    layer.close(index);
+                    idx = layer.msg("请稍后",{icon:16,time:0,shade:0.5});
+
+                    ajaxSubmit(null, Api.Demo.submit + "?ID=" + data.id + "&actionType=1&authCode=" + code, "POST", (res) => {
 
 
-                            if (data.res == "yes") {
-                                layer.alert("删除成功!");
-                                obj.del();
-                                layer.close(index);
-                            } else {
-                                layer.alert("删除失败!");
+                        table.reload('table_all', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
                             }
-                        },
-                        error: function () {
-                            alert("删除操作失败");
-                        }
-                    });
+                        });
 
+                        layer.msg("操作成功", {icon: 1});
+                        layer.close(idx);
+                    })
                 });
-            } else if (obj.event === 'edit') {
+
+            } else if (obj.event === 'lx') {
+                layer.confirm('确定立项吗', (index) => {
+                    layer.close(index);
+                    idx = layer.msg("请稍后",{icon:16,time:0,shade:0.5});
+                    ajaxSubmit(null, Api.Demo.submit + "?ID=" + data.id + "&actionType=2&authCode=" + code, "POST", (res) => {
+                        table.reload('table_all', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg("操作成功", {icon: 1});
+                        layer.close(idx);
+                    })
+                });
+
+
+            } else if (obj.event === 'sh') {
                 //layer.alert('编辑行：<br>' + JSON.stringify(data));
-                var as = layer.open({
-                    id: "ModifityKH",
-                    type: 2,
-                    title: data.full_name,
-                    maxmin: true,
-                    shadeClose: false,
-                    shade: 0.8,
-                    area: ['1500px', '800px'],
-                    //content : path+'/voteback/add.html',
-                    content: 'customer_unit_library_Mot.html?id=' + data.id, //iframe的url
-                    success: function (layero, index) {
-                        //传入参数，并赋值给iframe的元素
-                    }
+
+                layer.confirm('确定上会吗', (index) => {
+                    layer.close(index);
+                    idx = layer.msg("请稍后",{icon:16,time:0,shade:0.5});
+                    ajaxSubmit(null, Api.Demo.submit + "?ID=" + data.id + "&actionType=3&authCode=" + code, "POST", (res) => {
+                        table.reload('table_all', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                        });
+                        layer.msg("操作成功", {icon: 1});
+                        layer.close(idx);
+                    })
                 });
-                layer.full(as);
             }
         });
 

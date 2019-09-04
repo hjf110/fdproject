@@ -21,3 +21,17 @@ var Api = {
 
 
 window.Api = Api;
+
+
+console.log = (function (oriLogFunc) {
+    return function () {
+        //判断配置文件是否开启日志调试
+        if (Api.Log) {
+            try{
+                oriLogFunc.call(console, ...arguments);
+            }catch(e){
+                console.error('console.log error', e);
+            }
+        }
+    }
+})(console.log);

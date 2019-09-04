@@ -437,8 +437,10 @@ var ajaxSubmit = function (submitData, url, type, method, headType, istoken, isa
                 console.log("" + url, res);
             }
             // console.log(11111111111111111111);
+            method(res);
+
             if (res.code == "0") {
-                method(res);
+                // method(res);
             } else {
                 alert(res.msg);
                 // method(data);
@@ -1158,18 +1160,6 @@ const smallTobig = (str) => {
 };
 
 
-console.log = (function (oriLogFunc) {
-    return function () {
-        //判断配置文件是否开启日志调试
-        if (Api.Log) {
-            try{
-                oriLogFunc.call(console, ...arguments);
-            }catch(e){
-                console.error('console.log error', e);
-            }
-        }
-    }
-})(console.log);
 
 
 
