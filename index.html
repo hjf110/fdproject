@@ -111,20 +111,42 @@
 </div>-->
 <!-- 底部结束 -->
 </body>
+<script src="https://g.alicdn.com/dingding/dingtalk-jsapi/2.7.13/dingtalk.open.js"></script>
 <script src="lib/layui/layui.js" charset="utf-8"></script>
 <script type="text/javascript" src="js/xadmin.js"></script>
 <script src="js/Config/localjs.js"></script>
 <script>
-    $(()=>{
+    // $(()=>{
+    //
+    //
+    //     let code = GetQueryString("code");
+    //     sessionStorage.setItem("code",code);//存入登录获得的code
+    //
+    //
+    //
+    //
+    // })
+
+    dd.ready(function() {
+        // dd.ready参数为回调函数，在环境准备就绪时触发，jsapi的调用需要保证在该回调函数触发后调用，否则无效。
+        dd.runtime.permission.requestAuthCode({
+            corpId: "ding1915eab05367d7d935c2f4657eb6378f",
+            onSuccess: function(result) {
+                /*{
+                    code: 'hYLK98jkf0m' //string authCode
+                }*/
+                sessionStorage.setItem("code",result.authCode);//存入登录获得的code
 
 
-        let code = GetQueryString("code");
-        sessionStorage.setItem("code",code);//存入登录获得的code
+            },
+            onFail : function(err) {}
+
+        });
+    });
 
 
 
 
-    })
 </script>
 
 
