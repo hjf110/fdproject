@@ -116,6 +116,9 @@
 <script type="text/javascript" src="js/xadmin.js"></script>
 <script src="js/Config/localjs.js"></script>
 <script>
+
+
+    // layui.layer.msg("请稍后",{icon:16,time:0,})
     // $(()=>{
     //
     //
@@ -136,10 +139,13 @@
                     code: 'hYLK98jkf0m' //string authCode
                 }*/
                 sessionStorage.setItem("code",result.authCode);//存入登录获得的code
-
+                alert("成功,返回的参数是---"+JSON.stringify(result));
 
             },
-            onFail : function(err) {}
+            onFail : function(err) {
+
+                alert("失败,返回的参数是---"+JSON.stringify(err));
+            }
 
         });
     });
