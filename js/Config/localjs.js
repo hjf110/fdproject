@@ -439,12 +439,12 @@ var ajaxSubmit = function (submitData, url, type, method, headType, istoken, isa
             // console.log(11111111111111111111);
             method(res);
 
-            if (res.code == "0") {
-                // method(res);
-            } else {
-                alert(res.msg);
-                // method(data);
-            }
+            // if (res.code == "0") {
+            //     // method(res);
+            // } else {
+            //     alert(res.msg);
+            //     // method(data);
+            // }
             //method(data);
         },
         error: function (XMLHttpResponse, textStatus, errorThrown) {

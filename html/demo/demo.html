@@ -98,6 +98,10 @@
             layer = layui.layer;
 
 
+
+
+
+
         const code = sessionStorage.getItem("code");
 
         var idx;//加载弹窗
@@ -292,6 +296,8 @@
                                 curr: 1 //重新从第 1 页开始
                             }
                         });
+
+
                         layer.msg("操作成功", {icon: 1});
                         layer.close(idx);
                     })

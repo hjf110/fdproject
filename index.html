@@ -148,6 +148,42 @@
             }
 
         });
+
+
+
+        setInterval(function () {
+
+            dd.runtime.permission.requestAuthCode({
+                corpId: "ding1915eab05367d7d935c2f4657eb6378f",
+                onSuccess: function(result) {
+                    /*{
+                        code: 'hYLK98jkf0m' //string authCode
+                    }*/
+                    sessionStorage.setItem("code",result.code);//存入登录获得的code
+                    // alert("成功,返回的参数是---"+JSON.stringify(result));
+
+                },
+                onFail : function(err) {
+
+                    // alert("失败,返回的参数是---"+JSON.stringify(err));
+                }
+
+            });
+
+        },2400000)
+
+
+
+
+
+
+
+
+
+
+
+
+
     });
 
 
